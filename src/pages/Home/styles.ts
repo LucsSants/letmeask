@@ -56,6 +56,12 @@ export const PageAuth = styled.div`
     align-items: stretch;
     text-align: center;
 
+    .theme-switch {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+    }
+
     > img {
       align-self: center;
     }

@@ -11,6 +11,7 @@ import { useAuth } from '../hooks/useAuth'
 import { database } from '../services/firebase'
 
 import {PageAuth} from './Home/styles'
+import { ThemeSwitch } from '../components/ThemeSwitch'
 
 export function NewRoom() {
   const {user} = useAuth()
@@ -47,6 +48,9 @@ return(
 
       <main>
         <div className="main-content">
+        <div className='theme-switch'>
+            <ThemeSwitch/>
+          </div>
           <img src={logoImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
           <form onSubmit={handleCreateRoom}>

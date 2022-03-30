@@ -11,6 +11,7 @@ import { FormEvent, useState } from 'react'
 import { database } from '../../services/firebase'
 import {PageAuth} from './styles'
 import { useTheme } from '../../hooks/useTheme'
+import { ThemeSwitch } from '../../components/ThemeSwitch'
 
 export function Home() {
   const history = useHistory();
@@ -79,6 +80,9 @@ return(
 
       <main>
         <div className="main-content">
+          <div className='theme-switch'>
+            <ThemeSwitch/>
+          </div>
           <img src={logoImg} alt="Letmeask" />
           <button onClick={handleCreateRom} className="create-room">
             <img src={googleIconImg} alt="Logo do google" />
