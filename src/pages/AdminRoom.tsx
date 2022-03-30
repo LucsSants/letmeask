@@ -4,6 +4,7 @@ import logoImg from '../assets/images/logo.svg'
 import deleteImg from '../assets/images/delete.svg'
 import checkImg from '../assets/images/check.svg'
 
+import { ThemeSwitch } from '../components/ThemeSwitch'
 
 import { Button } from '../components/Button'
 import { Question } from '../components/Question'
@@ -12,7 +13,9 @@ import { Roomcode } from '../components/RoomCode'
 import { useRom } from '../hooks/useRoom'
 import { database } from '../services/firebase'
 
-import '../styles/room.scss'
+import {PageRoom} from '../pages/Room/styles'
+
+import {Toaster} from 'react-hot-toast'
 
 type RoomParams = {
   id: string
@@ -61,7 +64,11 @@ export function AdminRoom() {
   }
 
   return(
-    <div id="page-room">
+    <PageRoom >
+    <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
     <header>
       <div className="content">
         <Link to='/'>
@@ -70,6 +77,7 @@ export function AdminRoom() {
         <div>
           <Roomcode code={roomId}/>
           <Button isOutlined onClick={handleEndRoom}>Encerrar Sala</Button>
+          <ThemeSwitch/>
         </div>
       </div>
     </header>
@@ -122,6 +130,6 @@ export function AdminRoom() {
       </div>
     </main>
     
-    </div>
+    </PageRoom>
   )
 }

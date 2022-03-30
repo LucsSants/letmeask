@@ -1,28 +1,41 @@
 import { FormEvent, useState } from 'react'
-import {useParams, Link} from 'react-router-dom'
+import {useParams, Link, useHistory} from 'react-router-dom'
 
-import logoImg from '../assets/images/logo.svg'
-import { Button } from '../components/Button'
-import { Question } from '../components/Question'
-import { Roomcode } from '../components/RoomCode'
-import { useAuth } from '../hooks/useAuth'
-import { useRom } from '../hooks/useRoom'
-import { database } from '../services/firebase'
+import logoImg from '../../assets/images/logo.svg'
+import { Button } from '../../components/Button'
+import { Question } from '../../components/Question'
+import { Roomcode } from '../../components/RoomCode'
+import { useAuth } from '../../hooks/useAuth'
+import { useRom } from '../../hooks/useRoom'
+import { database } from '../../services/firebase'
 
-import '../styles/room.scss'
+import { ThemeSwitch } from '../../components/ThemeSwitch' 
+
+import {Toaster} from 'react-hot-toast'
+
+
+import { PageRoom } from './styles'
 
 type RoomParams = {
   id: string
 }
 
 export function Room() {
-  const {user}= useAuth();
+  const history = useHistory();
+  const {user, signInWithGoogle}= useAuth();
   const params = useParams<RoomParams>();
   const [newQuestion, setNewQuestion] = useState('')
   const roomId = params.id;
   
   const {title, questions} = useRom(roomId);
 
+  async function handleRoomLogin() {
+      if (!user) {
+        await signInWithGoogle()
+      }
+      
+      history.go(0)
+  }
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
@@ -61,17 +74,24 @@ export function Room() {
   }
 
   return(
-    <div id="page-room">
-    <header>
+    <PageRoom>
+      <header>
       <div className="content">
         <Link to='/'>
         <img src={logoImg} alt="letmeask" />
         </Link>
+        <div>
         <Roomcode code={roomId}/>
+        <ThemeSwitch/>
+        </div>
       </div>
     </header>
 
     <main >
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
       <div className="room-title">
         <h1>{title}</h1>
         {questions.length > 0  && <span>{questions.length} pergunta(s)</span>} 
@@ -91,7 +111,7 @@ export function Room() {
               <span>{user.name}</span>
             </div>
           ) : (
-            <span>Para enviar uma pergunta, <button>faça seu login</button>.</span>
+            <span>Para enviar uma pergunta, <button onClick={handleRoomLogin}>faça seu login</button>.</span>
           )}
           <Button type="submit" disabled={!user}>Enviar pergunta</Button>
         </div>
@@ -126,6 +146,8 @@ export function Room() {
       </div>
     </main>
     
-    </div>
+    </PageRoom>
+    
+    
   )
 }

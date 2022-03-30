@@ -5,10 +5,12 @@ import illustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
 
 
-import '../styles/auth.scss'
+
 import { Button } from '../components/Button'
 import { useAuth } from '../hooks/useAuth'
 import { database } from '../services/firebase'
+
+import {PageAuth} from './Home/styles'
 
 export function NewRoom() {
   const {user} = useAuth()
@@ -34,7 +36,7 @@ export function NewRoom() {
 
 return(
 
-    <div id='page-auth'>
+    <PageAuth>
 
       <aside>
         <img src={illustrationImg} alt="Ilustração perguntass e respostas" />
@@ -65,6 +67,6 @@ return(
         </div>
       </main>
 
-    </div>
+    </PageAuth>
 )
 }
