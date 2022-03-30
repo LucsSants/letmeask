@@ -1,14 +1,16 @@
 import {useHistory} from 'react-router-dom'
+import toast, {Toaster} from 'react-hot-toast'
 
-import illustrationImg from '../assets/images/illustration.svg'
-import logoImg from '../assets/images/logo.svg'
-import googleIconImg from '../assets/images/google-icon.svg'
+import illustrationImg from '../../assets/images/illustration.svg'
+import logoImg from '../../assets/images/logo.svg'
+import googleIconImg from '../../assets/images/google-icon.svg'
 
-import '../styles/auth.scss'
-import { Button } from '../components/Button'
-import { useAuth } from '../hooks/useAuth'
+import { Button } from '../../components/Button'
+import { useAuth } from '../../hooks/useAuth'
 import { FormEvent, useState } from 'react'
-import { database } from '../services/firebase'
+import { database } from '../../services/firebase'
+import {PageAuth} from './styles'
+import { useTheme } from '../../hooks/useTheme'
 
 export function Home() {
   const history = useHistory();
@@ -16,6 +18,22 @@ export function Home() {
 
   const [roomCode,setRoomCode] = useState('')
 
+  const {theme} = useTheme();
+
+  function toastStyle() {
+    if (theme.title === 'dark')  {
+      return {
+        background: '#0c0c0d',
+        color: '#f8f8f8'
+      } 
+    } else {
+      return {
+        background: '#f8f8f8',
+        color: '#0c0c0d'
+      }
+    }
+  }
+  
   async function handleCreateRom() {
     if (!user) {
       await signInWithGoogle()
@@ -32,14 +50,15 @@ export function Home() {
     }
 
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
-
+    
     if (!roomRef.exists()) {
-      alert('Room does not exists!')
+      toast.error('Room does not exists!', {style: toastStyle()})
+
       return;
     }
 
     if(roomRef.val().endedAt) {
-      alert('Room already closed!')
+      toast.error('Room already closed!')
       return;
     }
 
@@ -48,12 +67,13 @@ export function Home() {
 
 return(
 
-    <div id='page-auth'>
+    <PageAuth>
 
       <aside>
         <img src={illustrationImg} alt="Ilustração perguntass e respostas" />
         <strong>Crie suas salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
+        <Toaster />
 
       </aside>
 
@@ -80,6 +100,6 @@ return(
         </div>
       </main>
 
-    </div>
+    </PageAuth>
 )
 }

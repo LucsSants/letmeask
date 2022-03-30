@@ -1,4 +1,6 @@
-#page-auth {
+import styled from "styled-components";
+
+export const PageAuth = styled.div`
   display: flex;
   align-items: stretch;
   height: 100vh;
@@ -6,7 +8,7 @@
   aside {
     flex: 6;
 
-    background: #835afd;
+    background: ${(props) => props.theme.colors.primary};
     color: #FFF;
 
     display: flex;
@@ -69,8 +71,9 @@
         height: 50px;
         border-radius: 8px;
         padding: 0 16px;
-        background: #FFF;
+        background: ${props => props.theme.colors.input};
         border: 1px solid #a8a8b3;
+        color: ${props => props.theme.colors.text};
       }
 
       button{
@@ -147,4 +150,4 @@
       margin-left: 16px;
     }
   }
-}
+`
