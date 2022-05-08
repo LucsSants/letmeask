@@ -48,6 +48,9 @@ return(
 
       <main>
         <div className="main-content">
+        <div className='theme-switch'>
+            <ThemeSwitch/>
+          </div>
           <img src={logoImg} alt="Letmeask" />
           <h2>Criar uma nova sala</h2>
           <form onSubmit={handleCreateRoom}>
